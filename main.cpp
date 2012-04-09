@@ -4,11 +4,13 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication app(argc, argv);
+	Herqq::Upnp::SetLoggingLevel(Herqq::Upnp::Warning);
 
-    MainWindow mainWindow;
-    mainWindow.setOrientation(MainWindow::ScreenOrientationAuto);
-    mainWindow.showExpanded();
+	QApplication app(argc, argv);
 
-    return app.exec();
+	MainWindow mainWindow;
+	mainWindow.setOrientation(MainWindow::ScreenOrientationAuto);
+	mainWindow.showExpanded();
+
+	return app.exec();
 }

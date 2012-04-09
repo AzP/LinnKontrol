@@ -24,7 +24,7 @@ symbian:TARGET.CAPABILITY += NetworkServices
 QT      += network testlib xml
 CONFIG  += warn_on
 INCLUDEPATH += ../hupnp/include
-LIBS += -L"../hupnp/bin" -lHUpnp
+LIBS += -L"../hupnp/lib" -lHUpnp -lQtSolutions_SOAP-2.7
 
 SOURCES += main.cpp mainwindow.cpp
 HEADERS += mainwindow.h

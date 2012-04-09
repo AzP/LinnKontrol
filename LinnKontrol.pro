@@ -24,10 +24,11 @@ symbian:TARGET.CAPABILITY += NetworkServices
 QT      += network testlib xml
 CONFIG  += warn_on
 INCLUDEPATH += ../hupnp/include
-LIBS += -L"../hupnp/lib" -lHUpnp -lQtSolutions_SOAP-2.7
 
-SOURCES += main.cpp mainwindow.cpp
-HEADERS += mainwindow.h
+SOURCES += main.cpp mainwindow.cpp \
+    myclass.cpp
+HEADERS += mainwindow.h \
+    myclass.h
 FORMS += mainwindow.ui
 
 # Please do not modify the following two lines. Required for deployment.
@@ -42,3 +43,13 @@ OTHER_FILES += \
     qtc_packaging/debian_harmattan/control \
     qtc_packaging/debian_harmattan/compat \
     qtc_packaging/debian_harmattan/changelog
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../hupnp/lib/release -lHUpnp  -lQtSolutions_SOAP-2.7
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../hupnp/lib/debug -lHUpnp -lQtSolutions_SOAP-2.7
+else:harmattan:CONFIG(debug, debug|release): LIBS += -L$$PWD/../hupnp/lib/debug -lHUpnp -lQtSolutions_SOAP-2.7
+else:harmattan:CONFIG(release, debug|release): LIBS += -L$$PWD/../hupnp/lib/release -lHUpnp -lQtSolutions_SOAP-2.7
+else:symbian: LIBS += -lHUpnp -lQtSolutions_SOAP-2.7
+else:unix:CONFIG(release, debug|release): LIBS += -L$$PWD/../hupnp/lib/release -lHUpnp -lQtSolutions_SOAP-2.7
+else:unix:CONFIG(debug, debug|release): LIBS += -L$$PWD/../hupnp/lib/debug -lHUpnp -lQtSolutions_SOAP-2.7
+
+DEPENDPATH += $$PWD/../hupnp/lib/debug

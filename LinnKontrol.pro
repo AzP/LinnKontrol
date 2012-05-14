@@ -24,13 +24,15 @@ symbian:TARGET.CAPABILITY += NetworkServices
 QT      += network testlib xml
 CONFIG  += warn_on
 
+INCLUDEPATH += $$PWD/hupnp/include
+
 # Section to install libHUpnp
-harmattan:CONFIG(debug, debug|release): hupnp.files += $$PWD/hupnp/lib/debug/libHUpnp.so.1
-harmattan:CONFIG(release, debug|release): hupnp.files += $$PWD/hupnp/lib/release/libHUpnp.so.1
-harmattan:CONFIG(debug, debug|release):  hupnp.files += $$PWD/hupnp/lib/debug/libQtSolutions_SOAP-2.7.so.1
-harmattan:CONFIG(release, debug|release):  hupnp.files += $$PWD/hupnp/lib/release/libQtSolutions_SOAP-2.7.so.1
-harmattan:hupnp.path = /opt/LinnKontrol/hupnp/lib
-harmattan:INSTALLS += hupnp
+contains(MEEGO_EDITION,harmattan):CONFIG(debug, debug|release): hupnp.files += $$PWD/hupnp/lib/harmattan/debug/libHUpnp.so.1
+contains(MEEGO_EDITION,harmattan):CONFIG(release, debug|release): hupnp.files += $$PWD/hupnp/lib/harmattan/release/libHUpnp.so.1
+contains(MEEGO_EDITION,harmattan):CONFIG(debug, debug|release):  hupnp.files += $$PWD/hupnp/lib/harmattan/debug/libQtSolutions_SOAP-2.7.so.1
+contains(MEEGO_EDITION,harmattan):CONFIG(release, debug|release):  hupnp.files += $$PWD/hupnp/lib/harmattan/release/libQtSolutions_SOAP-2.7.so.1
+contains(MEEGO_EDITION,harmattan):hupnp.path = /opt/LinnKontrol/hupnp/lib
+contains(MEEGO_EDITION,harmattan):INSTALLS += hupnp
 
 SOURCES += main.cpp mainwindow.cpp \
     myclass.cpp
@@ -51,17 +53,16 @@ OTHER_FILES += \
     qtc_packaging/debian_harmattan/compat \
     qtc_packaging/debian_harmattan/changelog
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/hupnp/lib/release/ -lHUpnp  -lQtSolutions_SOAP-2.7
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/hupnp/lib/debug/ -lHUpnp -lQtSolutions_SOAP-2.7
-else:harmattan:CONFIG(debug, debug|release): LIBS += -L$$PWD/hupnp/lib/harmattan/debug/ -lHUpnp -lQtSolutions_SOAP-2.7
-else:harmattan:CONFIG(release, debug|release): LIBS += -L$$PWD/hupnp/lib/harmattan/release/ -lHUpnp -lQtSolutions_SOAP-2.7
-else:unix:CONFIG(release, debug|release): LIBS += -L$$PWD/hupnp/lib/unix/release/ -lHUpnp -lQtSolutions_SOAP-2.7
-else:unix:CONFIG(debug, debug|release): LIBS += -L$$PWD/hupnp/lib/unix/debug/ -lHUpnp -lQtSolutions_SOAP-2.7
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/hupnp/lib/release -lHUpnp  -lQtSolutions_SOAP-2.7
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/hupnp/lib/debug -lHUpnp -lQtSolutions_SOAP-2.7
+else:unix:!contains(MEEGO_EDITION,harmattan):CONFIG(release, debug|release): LIBS += -L$$PWD/hupnp/lib/unix/release -lHUpnp -lQtSolutions_SOAP-2.7
+else:unix:!contains(MEEGO_EDITION,harmattan):CONFIG(debug, debug|release): LIBS += -L$$PWD/hupnp/lib/unix/debug -lHUpnp -lQtSolutions_SOAP-2.7
+else:contains(MEEGO_EDITION,harmattan):CONFIG(release, debug|release): LIBS += -L$$PWD/hupnp/lib/harmattan/release -lHUpnp -lQtSolutions_SOAP-2.7
+else:contains(MEEGO_EDITION,harmattan):CONFIG(debug, debug|release): LIBS += -L$$PWD/hupnp/lib/harmattan/debug -lHUpnp -lQtSolutions_SOAP-2.7
 #else:symbian: LIBS += -lHUpnp -lQtSolutions_SOAP-2.7
 
-INCLUDEPATH += $$PWD/hupnp/include
-CONFIG(debug, debug|release): DEPENDPATH += -L$$PWD/hupnp/lib/debug/
-CONFIG(release, debug|release): DEPENDPATH += -L$$PWD/hupnp/lib/release/
+contains(MEEGO_EDITION,harmattan):CONFIG(debug, debug|release): DEPENDPATH += -L$$PWD/hupnp/harmattan/lib/debug
+contains(MEEGO_EDITION,harmattan):CONFIG(release, debug|release): DEPENDPATH += -L$$PWD/hupnp/harmattan/lib/release
 
-harmattan:QMAKE_LFLAGS += -Wl,--rpath=/opt/LinnKontrol/hupnp/lib
-else:unix:QMAKE_LFLAGS += -Wl,--rpath=./hupnp/lib
+contains(MEEGO_EDITION,harmattan):QMAKE_LFLAGS += -Wl,--rpath=/opt/LinnKontrol/hupnp/lib
+else:unix:!contains(MEEGO_EDITION,harmattan):QMAKE_LFLAGS += -Wl,--rpath=./hupnp/lib

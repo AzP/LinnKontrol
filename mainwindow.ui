@@ -40,7 +40,7 @@
      </layout>
     </item>
     <item>
-     <widget class="QPlainTextEdit" name="plainTextEdit">
+     <widget class="QPlainTextEdit" name="textField">
       <property name="plainText">
        <string>Text box</string>
       </property>

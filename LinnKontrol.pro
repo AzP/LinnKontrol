@@ -25,12 +25,12 @@ QT      += network testlib xml
 CONFIG  += warn_on
 
 # Section to install libHUpnp
-CONFIG(debug, debug|release): hupnp.files += $$PWD/hupnp/lib/debug/libHUpnp.so.1
-CONFIG(release, debug|release): hupnp.files += $$PWD/hupnp/lib/release/libHUpnp.so.1
-CONFIG(debug, debug|release):  hupnp.files += $$PWD/hupnp/lib/debug/libQtSolutions_SOAP-2.7.so.1
-CONFIG(release, debug|release):  hupnp.files += $$PWD/hupnp/lib/release/libQtSolutions_SOAP-2.7.so.1
-hupnp.path = /opt/LinnKontrol/hupnp/lib
-INSTALLS += hupnp
+harmattan:CONFIG(debug, debug|release): hupnp.files += $$PWD/hupnp/lib/debug/libHUpnp.so.1
+harmattan:CONFIG(release, debug|release): hupnp.files += $$PWD/hupnp/lib/release/libHUpnp.so.1
+harmattan:CONFIG(debug, debug|release):  hupnp.files += $$PWD/hupnp/lib/debug/libQtSolutions_SOAP-2.7.so.1
+harmattan:CONFIG(release, debug|release):  hupnp.files += $$PWD/hupnp/lib/release/libQtSolutions_SOAP-2.7.so.1
+harmattan:hupnp.path = /opt/LinnKontrol/hupnp/lib
+harmattan:INSTALLS += hupnp
 
 SOURCES += main.cpp mainwindow.cpp \
     myclass.cpp
@@ -53,14 +53,15 @@ OTHER_FILES += \
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/hupnp/lib/release/ -lHUpnp  -lQtSolutions_SOAP-2.7
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/hupnp/lib/debug/ -lHUpnp -lQtSolutions_SOAP-2.7
-else:harmattan:CONFIG(debug, debug|release): LIBS += -L$$PWD/hupnp/lib/debug/ -lHUpnp -lQtSolutions_SOAP-2.7
-else:harmattan:CONFIG(release, debug|release): LIBS += -L$$PWD/hupnp/lib/release/ -lHUpnp -lQtSolutions_SOAP-2.7
-else:symbian: LIBS += -lHUpnp -lQtSolutions_SOAP-2.7
-else:unix:CONFIG(release, debug|release): LIBS += -L$$PWD/hupnp/lib/release/ -lHUpnp -lQtSolutions_SOAP-2.7
-else:unix:CONFIG(debug, debug|release): LIBS += -L$$PWD/hupnp/lib/debug/ -lHUpnp -lQtSolutions_SOAP-2.7
+else:harmattan:CONFIG(debug, debug|release): LIBS += -L$$PWD/hupnp/lib/harmattan/debug/ -lHUpnp -lQtSolutions_SOAP-2.7
+else:harmattan:CONFIG(release, debug|release): LIBS += -L$$PWD/hupnp/lib/harmattan/release/ -lHUpnp -lQtSolutions_SOAP-2.7
+else:unix:CONFIG(release, debug|release): LIBS += -L$$PWD/hupnp/lib/unix/release/ -lHUpnp -lQtSolutions_SOAP-2.7
+else:unix:CONFIG(debug, debug|release): LIBS += -L$$PWD/hupnp/lib/unix/debug/ -lHUpnp -lQtSolutions_SOAP-2.7
+#else:symbian: LIBS += -lHUpnp -lQtSolutions_SOAP-2.7
 
 INCLUDEPATH += $$PWD/hupnp/include
 CONFIG(debug, debug|release): DEPENDPATH += -L$$PWD/hupnp/lib/debug/
 CONFIG(release, debug|release): DEPENDPATH += -L$$PWD/hupnp/lib/release/
 
-QMAKE_LFLAGS += -Wl,--rpath=/opt/LinnKontrol/hupnp/lib
+harmattan:QMAKE_LFLAGS += -Wl,--rpath=/opt/LinnKontrol/hupnp/lib
+else:unix:QMAKE_LFLAGS += -Wl,--rpath=./hupnp/lib

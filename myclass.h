@@ -10,6 +10,10 @@ class MyClass : public QObject
 {
 	Q_OBJECT
 
+public:
+	void scanForNewDevices();
+	MyClass(QObject* parent = 0);
+
 private:
 
 	Herqq::Upnp::HControlPoint* m_controlPoint;
@@ -19,9 +23,6 @@ private slots:
 	void rootDeviceOnline(Herqq::Upnp::HClientDevice*);
 	void rootDeviceOffline(Herqq::Upnp::HClientDevice*);
 
-public:
-
-	MyClass(QObject* parent = 0);
 };
 
 #endif // MYCLASS_H
